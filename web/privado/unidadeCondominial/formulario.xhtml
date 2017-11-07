@@ -1,0 +1,68 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <ui:composition template="/templates/template.xhtml">
+        <ui:define name="titulo">Editar</ui:define>
+        <ui:define name="conteudo">
+            <h:form>
+                <div align="center">
+                    <p:messages/>
+                    <p:growl/>
+                    <p:panelGrid columns="2">
+                        <f:facet name="header">
+                            <p:outputLabel value="Edição de UnidadeCondominials"/>
+                        </f:facet>
+                        <f:facet name="footer">
+                            <div align="center">
+                                <p:commandButton value="Cancelar"
+                                                 action="#{controleUnidadeCondominial.cancelar()}"
+                                                 ajax="false" immediate="true"/>
+                                <p:commandButton value="Salvar" icon="ui-icon-disk"
+                                                 action="#{controleUnidadeCondominial.salvar()}"
+                                                 ajax="false"/>
+                            </div>
+                        </f:facet>
+                        
+                        <p:outputLabel value="ID" rendered="#{controleUnidadeCondominial.objeto.id != null}"/>
+                        <p:inputText value="#{controleUnidadeCondominial.objeto.id}" size="5" readonly="true"
+                                     rendered="#{controleUnidadeCondominial.objeto.id != null}"/>
+                        
+                        <p:outputLabel value="Numero" for="txtNumero"/>
+                        <p:inputText id="txtNumero" value="#{controleUnidadeCondominial.objeto.numero}"
+                                     size="40" maxlength="40"
+                                     placeholder="Obrigatório"/>                        
+                                            
+                        <p:outputLabel value="Descrição" for="txtDescricao"/>
+                        <p:inputText id="txtDescricao" value="#{controleUnidadeCondominial.objeto.descricao}"
+                                     size="40" maxlength="40"
+                                     placeholder="Obrigatório"/>
+                        
+                        <p:outputLabel value="Area" for="txtArea"/>
+                        <p:inputText id="txtArea" value="#{controleUnidadeCondominial.objeto.area}"
+                                     size="40" maxlength="40"
+                                     placeholder="Obrigatório"/>
+                        
+                        <p:outputLabel value="Quantidade de Quartos" for="txtQuartos"/>
+                        <p:inputText id="txtQuartos" value="#{controleUnidadeCondominial.objeto.numeroQuartos}"
+                                     size="40" maxlength="10"
+                                     placeholder="Obrigatório"/>
+                        
+                        <p:outputLabel value="Pessoas" for="selectPessoa"/>
+                        <p:selectOneMenu id="selectPessoa" value="#{controleUnidadeCondominial.objeto.pessoa}">
+                            <f:converter converterId="converterPessoa"/>
+                            <f:selectItem noSelectionOption="true" itemLabel="Selecione um Registro "/>
+                            <f:selectItems value="#{controleUnidadeCondominial.daoPessoa.lista}"  var="e"
+                                           itemLabel="#{e.nome}"/>
+                        </p:selectOneMenu>
+                        
+                    </p:panelGrid>
+                </div>
+            </h:form> 
+        </ui:define>                    
+    </ui:composition>
+</html>
+

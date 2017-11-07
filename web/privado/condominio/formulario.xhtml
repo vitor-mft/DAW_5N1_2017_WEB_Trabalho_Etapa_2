@@ -1,0 +1,58 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <ui:composition template="/templates/template.xhtml">
+        <ui:define name="titulo">Editar</ui:define>
+        <ui:define name="conteudo">
+            <h:form>
+                <div align="center">
+                    <p:messages/>
+                    <p:growl/>
+                    <p:panelGrid columns="2">
+                        <f:facet name="header">
+                            <p:outputLabel value="Edição de Condominios"/>
+                        </f:facet>
+                        <f:facet name="footer">
+                            <div align="center">
+                                <p:commandButton value="Cancelar"
+                                                 action="#{controleCondominio.cancelar()}"
+                                                 ajax="false" immediate="true"/>
+                                <p:commandButton value="Salvar" icon="ui-icon-disk"
+                                                 action="#{controleCondominio.salvar()}"
+                                                 ajax="false"/>
+                            </div>
+                        </f:facet>
+                        <p:outputLabel value="ID" rendered="#{controleCondominio.objeto.id != null}"/>
+                        <p:inputText value="#{controleCondominio.objeto.id}" size="5" readonly="true"
+                                     rendered="#{controleCondominio.objeto.id != null}"/>
+                        
+                        <p:outputLabel value="Nome" for="txtNome"/>
+                        <p:inputText id="txtNome" value="#{controleCondominio.objeto.nome}"
+                                     size="40" maxlength="40"
+                                     placeholder="Obrigatório"/>
+                        
+                         <p:outputLabel value="Endereço" for="txtendereco"/>
+                         <p:inputText id="txtendereco" value="#{controleCondominio.objeto.endereco}"
+                                     size="60" maxlength="60"
+                                     placeholder="Obrigatório"/>
+                      
+                        <p:outputLabel value="Numero" for="txtTelefone"/>
+                        <p:inputText id="txtTelefone" value="#{controleCondominio.objeto.numero}"
+                                     size="6" maxlength="6"
+                                     placeholder="Obrigatório"/>
+                        
+                        <p:outputLabel value="CEP" for="txtcep"/>
+                        <p:inputMask mask="99999-999" id="txtcep" value="#{controleCondominio.objeto.cep}"
+                                     size="11" maxlength="8"
+                                     placeholder="Obrigatório"/>
+                    </p:panelGrid>
+                </div>
+            </h:form> 
+        </ui:define>                    
+    </ui:composition>
+</html>
+
