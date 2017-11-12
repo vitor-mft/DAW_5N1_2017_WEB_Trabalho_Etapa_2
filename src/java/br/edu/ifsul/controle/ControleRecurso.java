@@ -12,52 +12,64 @@ import javax.faces.bean.SessionScoped;
  *
  * @author Vitor Mateus T
  */
-@ManagedBean(name = "controleRecurso")
+@ManagedBean(name="controleRecurso")
 @SessionScoped
-public class ControleRecurso implements Serializable {
-    
-    private RecursoDAO dao;
+public class ControleRecurso implements Serializable{
+    private RecursoDAO<Recurso> dao;
     private Recurso objeto;
-    
-    public ControleRecurso(){
-        dao = new RecursoDAO();
+
+    public ControleRecurso() {
+        dao = new RecursoDAO<>();
     }
-    
+
     public String listar(){
         return "/privado/recurso/listar?faces-redirect=true";
     }
     
     public String novo(){
         objeto = new Recurso();
-        return "formulario?faces-redirect=true";
+        
+        return "formulario";
     }
     
     public String salvar(){
-        if (dao.salvar(objeto)){
+        boolean persistiu;
+        if (objeto.getId() == null){
+            persistiu = dao.persist(objeto);
+        } else {
+            persistiu = dao.merge(objeto);
+        }
+        if (persistiu){
             Util.mensagemInformacao(dao.getMensagem());
-            return "listar?faces-redirect=true";
+            return "listar";
         } else {
             Util.mensagemErro(dao.getMensagem());
-            return "formulario?faces-redirect=true";
+            return "formulario";
         }
     }
     
     public String cancelar(){
-        return "listar?faces-redirect=true";
+        return "listar";
     }
     
     public String editar(Integer id){
-        objeto = dao.localizar(id);
-        return "formulario?faces-redirect=true";
+        try{
+            objeto = dao.localizar(id);
+            return "formulario";
+        }catch(Exception e){
+            Util.mensagemErro("Erro ao recuperar objeto"+Util.getMensagemErro(e));
+            return "listar";
+        }
     }
     
     public void remover(Integer id){
         objeto = dao.localizar(id);
-        if (dao.remover(objeto)){
+        if(dao.remover(objeto)){
             Util.mensagemInformacao(dao.getMensagem());
-        } else {
+        }else{
             Util.mensagemErro(dao.getMensagem());
         }
+            
     }
     
     public RecursoDAO getDao() {
@@ -75,5 +87,6 @@ public class ControleRecurso implements Serializable {
     public void setObjeto(Recurso objeto) {
         this.objeto = objeto;
     }
-
+    
+    
 }

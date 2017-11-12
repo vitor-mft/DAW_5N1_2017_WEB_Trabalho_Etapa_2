@@ -1,4 +1,8 @@
-
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package br.edu.ifsul.dao;
 
 
@@ -7,7 +11,6 @@ import br.edu.ifsul.util.Util;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
-
 
 /**
  *
@@ -21,7 +24,7 @@ public class DAOGenerico<T> {
     private String mensagem = "";
     protected String ordem = "id";
     protected String filtro = "";
-    protected Integer maximoObjetos = 2;
+    protected Integer maximoObjetos = 10;
     protected Integer posicaoAtual = 0;
     protected Integer totalObjetos = 0;
     private List<T> listaTodos;
