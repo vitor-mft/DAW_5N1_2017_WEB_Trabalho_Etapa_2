@@ -76,7 +76,6 @@
                     <f:facet name="footer">
                         <p:outputLabel value="#{controleAluguel.dao.mensagemNavegacao}"/>
                     </f:facet>
-
                     <p:column headerText="ID">
                         <p:outputLabel value="#{obj.id}"/>
                     </p:column>
@@ -85,6 +84,9 @@
                         <p:outputLabel value="#{obj.locatario.nome}"/>
                     </p:column>
 
+                    <p:column headerText="Ap:">
+                        <p:outputLabel value="#{obj.unidadecondominal.numero}"/>
+                    </p:column> 
                     <p:column headerText="Inicio do Contrato">
                         <p:outputLabel value="#{obj.inicioContrato}">
                             <f:converter converterId="converterCalendar"/>
@@ -123,7 +125,6 @@
                     </p:column>
                 </p:dataTable>
             </h:form>
-
         </ui:define>
         <ui:define name="dialogos">
             <p:dialog header="Edição" widgetVar="dlg"
@@ -132,7 +133,7 @@
                     <p:growl id="growl"/>
                     <p:tabView id="tab">
                         <p:tab title="Dados Principais">
-                           <div align="center">
+                            <div align="center">
                                 <p:panelGrid columns="2">
                                     <f:facet name="footer">
                                         <div align="center">
@@ -143,28 +144,10 @@
                                                              oncomplete="if (!args.validationFailed) {PF('dlg').hide();}"/>
                                         </div>                            
                                     </f:facet>                            
-                                     <p:outputLabel value="ID"/>
+                                    <p:outputLabel value="ID"/>
                                     <p:inputText value="#{controleAluguel.objeto.id}" readonly="true"
                                                  size="10"/>
 
-                                    <p:outputLabel value="Locatário" for="selectLocatario"/>
-                                    <p:selectOneMenu id="selectLocatario"
-                                                     value="#{controleAluguel.objeto.locatario}">
-                                        <f:converter converterId="converterLocatario"/>
-                                        <f:selectItem noSelectionOption="true"
-                                                      itemLabel="Selecione um registro"/>
-                                        <f:selectItems value="#{controleAluguel.daoLocatario.listaTodos}"
-                                                       var="l" itemLabel="#{l.nome}"/>
-                                    </p:selectOneMenu> 
-                                    <p:outputLabel value="Unidade Condominal" for="selectUnCondominal"/>
-                                    <p:selectOneMenu id="selectUnCondominal"
-                                                     value="#{controleAluguel.objeto.unidadecondominal}">
-                                        <f:converter converterId="converterUnidadeCondominal"/>
-                                        <f:selectItem noSelectionOption="true"
-                                                      itemLabel="Selecione um registro"/>
-                                        <f:selectItems value="#{controleAluguel.daoCondominio.listaUnCondominal}"
-                                                       var="uc" itemLabel="Condominio #{uc.condominio.nome} - Ap_ #{uc.numero}"/>
-                                    </p:selectOneMenu> 
                                     <p:outputLabel value="Inicio do contrato" for="txtDataIni"/>
                                     <p:calendar id="txtDataIni" value="#{controleAluguel.objeto.inicioContrato}"
                                                 pattern="dd/MM/yyyy" mask="true" locale="pt_BR"
@@ -185,13 +168,82 @@
                                     <p:inputNumber id="txtValor" value="#{controleAluguel.objeto.valor}"
                                                    size="12" maxlength="12" decimalSeparator="," thousandSeparator=""
                                                    symbol="R$ " placeholder="Obrigatório"/>
+                                    <p:outputLabel value="Locatário" for="selectLocatario"/>
+                                    <p:selectOneMenu id="selectLocatario"
+                                                     value="#{controleAluguel.objeto.locatario}">
+                                        <f:converter converterId="converterLocatario"/>
+                                        <f:selectItem noSelectionOption="true"
+                                                      itemLabel="Selecione um registro"/>
+                                        <f:selectItems value="#{controleAluguel.daoLocatario.listaTodos}"
+                                                       var="l" itemLabel="#{l.nome}"/>
+                                    </p:selectOneMenu> 
+                                    <p:outputLabel value="Unidade Condominal" for="selectUnCondominal"/>
+                                    <p:selectOneMenu id="selectUnCondominal"
+                                                     value="#{controleAluguel.objeto.unidadecondominal}">
+                                        <f:converter converterId="converterUnidadeCondominal"/>
+                                        <f:selectItem noSelectionOption="true"
+                                                      itemLabel="Selecione um registro"/>
+                                        <f:selectItems value="#{controleAluguel.daoCondominio.listaUnCondominal}"
+                                                       var="uc" itemLabel="Condominio #{uc.condominio.nome} - Ap_ #{uc.numero}"/>
+                                    </p:selectOneMenu> 
 
 
                                 </p:panelGrid>                              
                             </div>                            
                         </p:tab>
                         <p:tab title="Mensalidades">
-                           
+                            <div align="center">
+                                <p:dataTable id="listagemMensalidades"
+                                             value="#{controleAluguel.objeto.mensalidade}"
+                                             var="m" rowIndexVar="tes" emptyMessage="Nenhuma mensalidade gerada">
+                                    <f:facet name="header">
+                                        <p:commandButton value="GERAR"
+                                                         actionListener="#{controleAluguel.gerarMensalidades()}"
+                                                         update="listagemMensalidades :formEdicao:growl"
+                                                         id="btnGerarMensalidade"/>
+                                    </f:facet>
+                                    <p:column headerText="ID">
+                                        <p:outputLabel value="#{m.id}"/>
+                                    </p:column>                                
+                                    <p:column headerText="Valor">
+                                        <p:outputLabel value="#{m.valor}">
+                                            <f:convertNumber pattern="R$ 0.00"/>
+                                        </p:outputLabel>
+                                    </p:column>
+                                    <p:column headerText="Vencimento">
+                                        <p:outputLabel value="#{m.vencimento}">
+                                            <f:converter converterId="converterCalendar"/>
+                                        </p:outputLabel>
+                                    </p:column>         
+                                    <p:column headerText="Valor Pago">
+                                        <p:outputLabel value="#{m.valorPagamento}">
+                                            <f:convertNumber pattern="R$ 0.00"/>
+                                        </p:outputLabel>
+                                    </p:column>
+                                    <p:column headerText="Data do Pagamento">
+                                        <p:outputLabel value="#{m.dataPagamento}">
+                                            <f:converter converterId="converterCalendar"/>
+                                        </p:outputLabel>
+                                    </p:column>   
+                                    <p:column headerText="Ações">
+                                        <div align="center">
+                                            <p:commandButton id="btnAlterarMensalidade" icon="ui-icon-pencil"
+                                                             actionListener="#{controleAluguel.alterarMensalidade(tes)}"
+                                                             update=":formMensalidade" process="btnAlterarMensalidade"
+                                                             oncomplete="PF('dlgMensalidade').show();"/>
+
+                                            <p:commandButton id="btnRemoverMensalidade" icon="ui-icon-trash"
+
+                                                             actionListener="#{controleAluguel.removerMensalidade(tes)}"
+                                                             process="btnRemoverMensalidade"
+                                                             update="listagemMensalidades :formEdicao:growl "
+                                                             onclick="if (!confirm('Confirma a exclusão do objeto?'))
+                                                                     return false"/>
+                                        </div>
+                                    </p:column>
+                                </p:dataTable>
+
+                            </div>
                         </p:tab>
                     </p:tabView>
                 </h:form>         

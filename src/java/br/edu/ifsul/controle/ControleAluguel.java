@@ -93,23 +93,29 @@ public class ControleAluguel implements Serializable {
         Util.mensagemInformacao("Mensalidade removida com sucesso");
     }
 
-    public void gerarMensalidades() {
-        Boolean temPagamento = false;
+    
+    
+    
+    
+    
+     public void gerarMensalidades() {
+        Boolean japagou = false;
         for (Mensalidades p : objeto.getMensalidade()) {
             if (p.getDataPagamento() != null
                     || p.getValorPagamento() != null) {
-                temPagamento = true;
+                japagou = true;
                 break;
             }
         }
-        if (temPagamento) {
-            Util.mensagemErro("Mensalidades não podem ser geradas novamente por já existirem mensalidades pagas!");
+        if (japagou) {
+            Util.mensagemErro("Mensalidades não podem ser geradas, pois já existirem mensalidades pagas!");
         } else {
-
+            
                 //Pensado em fazer a validação das Datas. 
             if (objeto.getInicioContrato().after(objeto.getFimContrato())) {
 
-                Util.mensagemErro("Mensalidades não podem ser geradas  pois a data de inicio do contrato é posterior a data de fim!");
+                Util.mensagemErro("Mensalidades não podem ser geradas "
+                        + "pois a data de inicio do contrato é posterior a data de fim!");
             } else {
                 try {
                     objeto.getMensalidade().clear();
