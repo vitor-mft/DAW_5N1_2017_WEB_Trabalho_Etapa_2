@@ -192,88 +192,10 @@
                             </div>                            
                         </p:tab>
                         <p:tab title="Mensalidades">
-                            <div align="center">
-                                <p:dataTable id="listagemMensalidades"
-                                             value="#{controleAluguel.objeto.mensalidade}"
-                                             var="teste" rowIndexVar="tes" emptyMessage="Nenhuma mensalidade gerada">
-                                    <f:facet name="header">
-                                        <p:commandButton value="Nova Mensalidade"
-                                                         actionListener="#{controleAluguel.novaMensalidade}"
-                                                         update=":formMensalidade"
-                                                         icon="ui-icon-plus"
-                                                         id="btnNovaMensalidade"
-                                                         process="btnNovaMensalidade"
-                                                         oncomplete="PF('dlgMensalidade').show();"/>
-                                    </f:facet>
-                                    <p:column headerText="ID">
-                                        <p:outputLabel value="#{teste.id}"/>
-                                    </p:column>
-                                    <p:column headerText="Valor">
-                                        <p:outputLabel value="#{teste.valor}"/>
-                                    </p:column>
-                                    <p:column headerText="Vencimento">
-                                        <p:outputLabel value="#{teste.vencimento}">
-                                        <f:converter converterId="converterCalendar"/>
-                                        </p:outputLabel>
-                                    </p:column>
-                                     
-                                    <p:column headerText="Valor Pago">
-                                        <p:outputLabel value="#{teste.valorPagamento}"/>
-                                    </p:column>
-                                    <p:column headerText="Data Pagamento">
-                                        <p:outputLabel value="#{teste.dataPagamento}">
-                                        <f:converter converterId="converterCalendar"/>
-                                        </p:outputLabel>
-                                    </p:column>
-                                </p:dataTable> 
-
-                            </div>
+                            
                         </p:tab>
                     </p:tabView>
                 </h:form>         
-            </p:dialog>
-            <p:dialog header="Edição de Mensalidades" widgetVar="dlgMensalidade"
-                      resizable="false" modal="true">
-                <h:form id="formMensalidade">
-                    <p:growl id="growlUC"/>
-                    <p:panelGrid columns="2">
-                        <f:facet name="footer">
-                            <div align="center">
-                                <p:commandButton value="Salvar" icon="ui-icon-disk"
-                                                 actionListener="#{controleAluguel.salvarMensalidade()}"
-                                                 update=":formEdicao:tab:listagemMensalidades formMensalidade :formMensalidade:growlUC"
-                                                 process="formMensalidade"
-                                                 id="btnSalvarMensalidade"
-                                                 oncomplete="if(!args.validationFailed){PF('dlgMensalidade').hide();}"/>
-                            </div>
-                            
-                        </f:facet>  
-                        <p:outputLabel value="ID"/>
-                        <p:inputText value="#{controleAluguel.mensalidade.id}" readonly="true" size="5"/>                 
-
-                        <p:outputLabel value="Valor" for="txtValor"/>
-                        <p:inputNumber id="txtValor" value="#{controleAluguel.mensalidade.valor}"
-                                       size="10" maxlength="12" decimalPlaces="0" thousandSeparator=""
-                                       placeholder="Obrigatório"/>
-                        <p:outputLabel value="Vencimento" for="txtVencimento"/>
-                        <p:calendar id="txtVencimento" value="#{controleAluguel.mensalidade.vencimento}"
-                                    pattern="dd/MM/yyyy" mask="true" locale="pt_BR"
-                                    navigator="true">
-                            <f:converter converterId="converterCalendar"/>
-                        </p:calendar>  
-                        <p:outputLabel value="Valor Pago" for="txtValorPago"/>
-                        <p:inputNumber id="txtValorPago" value="#{controleAluguel.mensalidade.valorPagamento}"
-                                       size="10" maxlength="12" decimalPlaces="0" thousandSeparator=""
-                                       />
-                        <p:outputLabel value="Data Pagamento" for="txtDataPagamento"/>
-                        <p:calendar id="txtDataPagamento" value="#{controleAluguel.mensalidade.dataPagamento}"
-                                    pattern="dd/MM/yyyy" mask="true" locale="pt_BR"
-                                    navigator="true">
-                            <f:converter converterId="converterCalendar"/>
-                        </p:calendar> 
-
-                    </p:panelGrid>
-                </h:form>                        
             </p:dialog>
         </ui:define>
     </ui:composition>

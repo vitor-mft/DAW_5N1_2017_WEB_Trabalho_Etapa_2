@@ -7,7 +7,7 @@ import br.edu.ifsul.dao.LocatarioDAO;
 import br.edu.ifsul.modelo.Aluguel;
 import br.edu.ifsul.modelo.Condominio;
 import br.edu.ifsul.modelo.Locatario;
-import br.edu.ifsul.modelo.Mensalidades;
+import br.edu.ifsul.modelo.Mensalidade;
 import br.edu.ifsul.util.Util;
 import java.io.Serializable;
 import javax.faces.bean.ManagedBean;
@@ -26,7 +26,7 @@ public class ControleAluguel implements Serializable {
     private LocatarioDAO<Locatario> daoLocatario;
     private CondominioDAO<Condominio> daoCondominio;
     //Lista 0 p 1 
-    private Mensalidades mensalidade;
+    private Mensalidade mensalidade;
     private Boolean novaMensalidade;
 
     public ControleAluguel() {
@@ -73,6 +73,11 @@ public class ControleAluguel implements Serializable {
             Util.mensagemErro(dao.getMensagem());
         }
     }
+    
+     public void NovaMensalidade(){
+        mensalidade = new Mensalidade(); 
+        novaMensalidade = true;
+    }
 
     public void alterarMensalidade(int index) {
         mensalidade = objeto.getMensalidade().get(index);
@@ -80,12 +85,13 @@ public class ControleAluguel implements Serializable {
     }
 
     public void salvarMensalidade() {
+        System.out.println("CHEGOU NO SALVARMENSALIDADE");
         if (novaMensalidade) {
             objeto.adicionarMensalidade(mensalidade);
         } else {
             
         }
-        Util.mensagemInformacao("Operação realizada com sucesso");
+        Util.mensagemInformacao("Mensalidade Salva com sucesso");
     }
 
     public void removerMensalidade(int index) {
@@ -96,37 +102,37 @@ public class ControleAluguel implements Serializable {
     
     
     
-    
-    
-     public void gerarMensalidades() {
-        Boolean japagou = false;
-        for (Mensalidades p : objeto.getMensalidade()) {
-            if (p.getDataPagamento() != null
-                    || p.getValorPagamento() != null) {
-                japagou = true;
-                break;
-            }
-        }
-        if (japagou) {
-            Util.mensagemErro("Mensalidades não podem ser geradas, pois já existirem mensalidades pagas!");
-        } else {
-            
-                //Pensado em fazer a validação das Datas. 
-            if (objeto.getInicioContrato().after(objeto.getFimContrato())) {
-
-                Util.mensagemErro("Mensalidades não podem ser geradas "
-                        + "pois a data de inicio do contrato é posterior a data de fim!");
-            } else {
-                try {
-                    objeto.getMensalidade().clear();
-                    objeto.gerarMensalidades();
-                    Util.mensagemInformacao("Mensalidades geradas com sucesso!");
-                } catch (Exception e) {
-                    Util.mensagemErro("Erro ao gerar mensalidades " + Util.getMensagemErro(e));
-                }
-            }
-        }
-    }
+//    
+//    
+//     public void gerarMensalidades() {
+//        Boolean japagou = false;
+//        for (Mensalidade p : objeto.getMensalidade()) {
+//            if (p.getDataPagamento() != null
+//                    || p.getValorPagamento() != null) {
+//                japagou = true;
+//                break;
+//            }
+//        }
+//        if (japagou) {
+//            Util.mensagemErro("Mensalidade não podem ser geradas, pois já existirem mensalidades pagas!");
+//        } else {
+//            
+//                //Pensado em fazer a validação das Datas. 
+//            if (objeto.getInicioContrato().after(objeto.getFimContrato())) {
+//
+//                Util.mensagemErro("Mensalidade não podem ser geradas "
+//                        + "pois a data de inicio do contrato é posterior a data de fim!");
+//            } else {
+//                try {
+//                    objeto.getMensalidade().clear();
+//                    objeto.gerarMensalidades();
+//                    Util.mensagemInformacao("Mensalidade geradas com sucesso!");
+//                } catch (Exception e) {
+//                    Util.mensagemErro("Erro ao gerar mensalidades " + Util.getMensagemErro(e));
+//                }
+//            }
+//        }
+//    }
 
     public AluguelDAO getDao() {
         return dao;
@@ -160,20 +166,12 @@ public class ControleAluguel implements Serializable {
         this.daoCondominio = daoCondominio;
     }
 
-    public Mensalidades getMensalidade() {
+    public Mensalidade getMensalidade() {
         return mensalidade;
     }
 
-    public void setMensalidade(Mensalidades mensalidade) {
+    public void setMensalidade(Mensalidade mensalidade) {
         this.mensalidade = mensalidade;
-    }
-
-    public Boolean getNovaMensalidade() {
-        return novaMensalidade;
-    }
-
-    public void setNovaMensalidade(Boolean novaMensalidade) {
-        this.novaMensalidade = novaMensalidade;
     }
 
 }
