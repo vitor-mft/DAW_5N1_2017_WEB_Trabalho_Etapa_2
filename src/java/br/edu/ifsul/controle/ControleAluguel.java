@@ -74,7 +74,7 @@ public class ControleAluguel implements Serializable {
         }
     }
     
-     public void NovaMensalidade(){
+     public void novaMensalidade(){
         mensalidade = new Mensalidade(); 
         novaMensalidade = true;
     }
@@ -83,6 +83,8 @@ public class ControleAluguel implements Serializable {
         mensalidade = objeto.getMensalidade().get(index);
         novaMensalidade = false;
     }
+    
+    
 
     public void salvarMensalidade() {
         System.out.println("CHEGOU NO SALVARMENSALIDADE");

@@ -225,6 +225,23 @@
                                         <f:converter converterId="converterCalendar"/>
                                         </p:outputLabel>
                                     </p:column>
+                                    <p:column headerText="Ações">
+                                    <div align="center">
+                                        <p:commandButton id="btnAlterarMensalidades"
+                                                         icon="ui-icon-pencil"
+                                                         actionListener="#{controleAluguel.alterarMensalidade(idx)}"
+                                                         update=":formMensalidade" process="btnAlterarMensalidades"
+                                                         oncomplete="PF('dlgMensalidade').show();"/>
+
+                                        <p:commandButton id="btnRemoverMensalidades"
+                                                         icon="ui-icon-trash"
+                                                         update="listagemMensalidades :formEdicao:growl"
+                                                         process="btnRemoverMensalidades"
+                                                         onclick="if (!confirm('Confirma a exclusão?'))
+                                                                     return false"
+                                                                     actionListener="#{controleAluguel.removerMensalidade(idx)}"/>                                                         
+                                    </div>
+                                </p:column>
                                 </p:dataTable> 
 
                             </div>
