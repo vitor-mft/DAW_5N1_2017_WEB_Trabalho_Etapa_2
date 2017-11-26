@@ -68,19 +68,26 @@
                     <p:column headerText="Cep">
                         <p:outputLabel value="#{obj.cep}"/>
                     </p:column>
+
                     <p:column headerText="Ações">
-                        <p:commandButton action="#{controleCondominio.editar(obj.id)}"
-                                         icon="ui-icon-pencil"
-                                         oncomplete="PF('dlg').show();"
-                                         update=":formEdicao"
-                                         process="@form"/>
-                        <p:commandButton action="#{controleCondominio.remover(obj.id)}"
-                                         icon="ui-icon-trash"
-                                         update="@form" process="@form"
-                                         title="remover"
-                                         onclick="if (!confirm('Confirma a exclusão?'))
-                                                     return false"
-                                         />
+                        <div align="center">
+                            <p:commandButton action="#{controleCondominio.editar(obj.id)}"
+                                             icon="ui-icon-pencil"
+                                             oncomplete="PF('dlg').show();"
+                                             update=":formEdicao"
+                                             process="@form"/>
+                            <p:commandButton action="#{controleCondominio.remover(obj.id)}"
+                                             icon="ui-icon-trash"
+                                             update="@form" process="@form"
+                                             title="remover"
+                                             onclick="if (!confirm('Confirma a exclusão?'))
+                                                         return false"
+                                             />
+                            <p:commandButton icon="ui-icon-print"
+                                             actionListener="#{controleCondominio.imprimeCondominios(obj.id)}"
+                                             ajax="false"
+                                             onclick="this.form.target = '_blank';"/>
+                        </div>
                     </p:column>
                 </p:dataTable>
             </h:form>
@@ -193,8 +200,8 @@
                                                  id="btnSalvarUnCondominal"
                                                  oncomplete="if(!args.validationFailed){PF('dlgUnCondominal').hide();}"
                                                  />
-                                
-                                
+
+
                             </div>
                         </f:facet>  
 
@@ -205,7 +212,7 @@
                         <p:inputNumber id="txtNumUnCondominal" value="#{controleCondominio.unCondominal.numero}"
                                        size="10" maxlength="12" decimalPlaces="0" thousandSeparator=""
                                        placeholder="Obrigatório"/>
-                       
+
                         <p:outputLabel value="Descricão" for="txtDescUn"/>
                         <p:inputTextarea value="#{controleCondominio.unCondominal.descricao}" 
                                          id="txtDescUn" placeholder="obrigatório"/>
@@ -219,7 +226,7 @@
                         <p:inputNumber id="txtNumQuartoUnCondominal" value="#{controleCondominio.unCondominal.numeroQuarto}"
                                        size="10" maxlength="12" decimalPlaces="0" thousandSeparator=""
                                        placeholder="Obrigatório"/>
-                        
+
                         <p:outputLabel value="Proprietário" for="selectPropUnCondominal"/>
                         <p:selectOneMenu value="#{controleCondominio.unCondominal.proprietario}" id="selectPropUnCondominal">
                             <f:converter converterId="converterPessoa"/>
